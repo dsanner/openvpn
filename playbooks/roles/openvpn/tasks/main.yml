@@ -168,28 +168,6 @@
   loop_control:
     label: "{{ item[0] }}"
 
-- name: Create the client configuration profiles that will be used when connecting via sslh
-  template:
-    src: client-sslh.ovpn.j2
-    dest: "{{ openvpn_path }}/{{ item[0] }}/{{ openvpn_sslh_profile_filename }}"
-  with_together:
-    - "{{ openvpn_clients }}"
-    - "{{ openvpn_client_certificates.results }}"
-    - "{{ openvpn_client_keys.results }}"
-  loop_control:
-    label: "{{ item[0] }}"
-
-- name: Create the client configuration profiles that will be used when connecting via stunnel
-  template:
-    src: client-stunnel.ovpn.j2
-    dest: "{{ openvpn_path }}/{{ item[0] }}/{{ openvpn_stunnel_profile_filename }}"
-  with_together:
-    - "{{ openvpn_clients }}"
-    - "{{ openvpn_client_certificates.results }}"
-    - "{{ openvpn_client_keys.results }}"
-  loop_control:
-    label: "{{ item[0] }}"
-
 - name: Allow OpenVPN through the firewall
   command: "{{ item }}"
   with_items: "{{ openvpn_firewall_rules }}"
@@ -218,20 +196,6 @@
     group: www-data
     mode: 0750
     state: directory
-
-- name: Generate the Markdown OpenVPN instructions
-  template:
-    src: "{{ item.src }}"
-    dest: "{{ item.dest }}"
-  with_items:
-    - { src: "instructions.md.j2",         dest: "{{ openvpn_markdown_instructions }}" }
-    - { src: "stunnel-instructions.md.j2", dest: "{{ openvpn_stunnel_markdown_instructions }}" }
-
-- name: Convert the Markdown OpenVPN instructions into HTML and surround them with the header and footer template
-  shell: markdown {{ item.md }} | cat {{ streisand_header_template }} - {{ streisand_footer_template }} > {{ item.html }}
-  with_items:
-    - { md: "{{ openvpn_markdown_instructions }}",         html: "{{ openvpn_html_instructions }}" }
-    - { md: "{{ openvpn_stunnel_markdown_instructions }}", html: "{{ openvpn_stunnel_html_instructions }}" }
 
 - name: Copy the client files to the OpenVPN Gateway directory
   command: cp --recursive {{ openvpn_path }}/{{ item }} {{ openvpn_gateway_location }}

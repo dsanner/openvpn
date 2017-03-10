@@ -10,21 +10,9 @@
 # bits.
 #
 
-# OpenConnect
-{{ ocserv_firewall_rule }}
 
 # OpenVPN
 {% for rule in openvpn_firewall_rules %}
-{{ rule }}
-{% endfor %}
-
-# L2TP/IPsec
-{% for rule in l2tp_ipsec_firewall_rules %}
-{{ rule }}
-{% endfor %}
-
-# WireGuard
-{% for rule in wireguard_firewall_rules %}
 {{ rule }}
 {% endfor %}
 
