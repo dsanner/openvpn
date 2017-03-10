@@ -26,3 +26,7 @@
     # compilation issues.
     - openvpn
     - ufw
+    - dnsmasq
+    - ip-forwarding
+    - rc-local
+    - monit
