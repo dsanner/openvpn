@@ -14,7 +14,8 @@ localhost ansible_connection=local ansible_python_interpreter=python
 # is only sensible and convenient when connecting to a brand-new host.
 #
 [streisand-host]
-testv.davidsanner.com
+#testv.davidsanner.com
+10.0.1.199
 #
 # If the SSH user to be used to login is not "root", specify it here with
 # the ansible_user directive. Streisand will sudo automatically. If sudo
