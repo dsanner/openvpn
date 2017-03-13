@@ -1,4 +1,4 @@
 client
-remote {{ openvpn_server }} {{ openvpn_port }}
+remote {{ ipify_public_ip }} {{ openvpn_port }}
 proto tcp
 {% include "client-common.j2" %}

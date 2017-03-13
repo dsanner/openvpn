@@ -2,6 +2,9 @@
 # Set default variables
 - include: set-default-variables.yml
 
+- name: get my public IP
+  ipify_facts:
+
 - name: Ensure the APT cache is up to date
   apt:
     update_cache: yes
